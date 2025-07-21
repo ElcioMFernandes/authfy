@@ -1,23 +1,41 @@
 {
   "name": "authfy",
-  "version": "0.0.1",
+  "license": "MIT",
+  "version": "1.0.0",
+  "author": "Élcio Mateus Fernandes",
+  "description": "This is an authentication application, named AuthFy, designed with a robust and scalable architecture. It leverages JSON Web Tokens (JWT) for secure and efficient user session management. The system implements a comprehensive authorization model combining Role-Based Access Control (RBAC) and Attribute-Based Access Control (ABAC), providing granular control over resource access. Built with TypeScript for enhanced code quality and maintainability, AuthFy utilizes Express.js as its web framework, ensuring a fast and unopinionated foundation. For data persistence, Prisma is employed as the Object-Relational Mapper (ORM), streamlining database interactions and schema management. Data validation is rigorously handled using Zod, ensuring data integrity across the application. Key security and performance features include a Redis-powered blacklist for invalidating JWTs and managing compromised tokens, alongside a rate-limiting mechanism to mitigate abuse and ensure system stability. User passwords are securely stored using bcrypt for hashing. The API is thoroughly documented with Swagger, providing clear and interactive specifications, and end-to-end testing is conducted using Cypress to ensure reliability and functionality.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/app.ts",
+    "dev": "nodemon src/app.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/app.js",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "type-check": "tsc --noEmit"
   },
-  "author": "Élcio Mateus Fernandes",
-  "license": "ISC",
-  "description": "This is an authentication application, named AuthFy, designed with a robust and scalable architecture. It leverages JSON Web Tokens (JWT) for secure and efficient user session management. The system implements a comprehensive authorization model combining Role-Based Access Control (RBAC) and Attribute-Based Access Control (ABAC), providing granular control over resource access. Built with TypeScript for enhanced code quality and maintainability, AuthFy utilizes Express.js as its web framework, ensuring a fast and unopinionated foundation. For data persistence, Prisma is employed as the Object-Relational Mapper (ORM), streamlining database interactions and schema management. Data validation is rigorously handled using Zod, ensuring data integrity across the application. Key security and performance features include a Redis-powered blacklist for invalidating JWTs and managing compromised tokens, alongside a rate-limiting mechanism to mitigate abuse and ensure system stability. User passwords are securely stored using bcrypt for hashing. The API is thoroughly documented with Swagger, providing clear and interactive specifications, and end-to-end testing is conducted using Cypress to ensure reliability and functionality.",
+  "keywords": [
+    "jwt",
+    "abac",
+    "rbac",
+    "authorization",
+    "authentication"
+  ],
   "dependencies": {
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.15",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
     "ts-node": "^10.9.2"
   }
 }
