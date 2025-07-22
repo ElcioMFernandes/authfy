@@ -5,14 +5,19 @@
   "author": "Élcio Mateus Fernandes",
   "description": "This is an authentication application, named AuthFy, designed with a robust and scalable architecture. It leverages JSON Web Tokens (JWT) for secure and efficient user session management. The system implements a comprehensive authorization model combining Role-Based Access Control (RBAC) and Attribute-Based Access Control (ABAC), providing granular control over resource access. Built with TypeScript for enhanced code quality and maintainability, AuthFy utilizes Express.js as its web framework, ensuring a fast and unopinionated foundation. For data persistence, Prisma is employed as the Object-Relational Mapper (ORM), streamlining database interactions and schema management. Data validation is rigorously handled using Zod, ensuring data integrity across the application. Key security and performance features include a Redis-powered blacklist for invalidating JWTs and managing compromised tokens, alongside a rate-limiting mechanism to mitigate abuse and ensure system stability. User passwords are securely stored using bcrypt for hashing. The API is thoroughly documented with Swagger, providing clear and interactive specifications, and end-to-end testing is conducted using Cypress to ensure reliability and functionality.",
   "main": "index.js",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon -r tsconfig-paths/register src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js",
+    "start": "node -r tsconfig-paths/register dist/app.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset"
   },
   "keywords": [
     "jwt",
@@ -41,6 +46,8 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.3"
   }
 }
