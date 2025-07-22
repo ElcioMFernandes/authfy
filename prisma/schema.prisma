@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/* === Main tables === */
+
 model User {
   // Field definitions
   id       String  @id @default(uuid())
@@ -16,6 +18,8 @@ model User {
   username String  @unique
   password String
 
+  // Foreign Keys
+
   // Audit Fields
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -23,13 +27,17 @@ model User {
   
 
   // Relationships
+  userRoles UserRole[]
+
 }
 
 model Role {
   // Field definitions
   id          String @id @default(uuid())
-  name        String
+  name        String @unique
   description String?
+
+  // Foreign Keys
 
   // Audit Fields
   isActive  Boolean  @default(true)
@@ -37,27 +45,18 @@ model Role {
   updatedAt DateTime @updatedAt
 
   // Relationships
-}
-
-model Module {
-  // Field definitions
-  id          String @id @default(uuid())
-  name        String
-  description String?
-
-  // Audit Fields
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relationships
+  userRoles UserRole[]
+  rolePermissions RolePermission[]
 }
 
 model Permission {
   // Field definitions
   id          String @id @default(uuid())
-  name        String
+  name        String @unique
   description String?
+
+  // Foreign Keys
+  moduleId    String
 
   // Audit Fields
   isActive  Boolean  @default(true)
@@ -65,13 +64,36 @@ model Permission {
   updatedAt DateTime @updatedAt
 
   // Relationships
+  rolePermissions RolePermission[]
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+model Module {
+  // Field definitions
+  id          String @id @default(uuid())
+  name        String @unique
+  description String?
+
+  // Foreign Keys
+  applicationId String
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  permissions Permission[]
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 }
 
 model Application {
   // Field definitions
   id          String @id @default(uuid())
-  name        String
+  name        String @unique
   description String?
+
+  // Foreign Keys
 
   // Audit Fields
   isActive  Boolean  @default(true)
@@ -79,4 +101,47 @@ model Application {
   updatedAt DateTime @updatedAt
 
   // Relationships
+  modules Module[]
+}
+
+/* === Relational tables === */
+
+model UserRole {
+  // Field definitions
+  id         String @id @default(uuid())
+
+  // Foreign Keys
+  userId String
+  roleId String
+
+  // Audit Fields
+  isActive   Boolean  @default(true)
+  assignedAt DateTime @default(now())
+  assignedBy String?
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+}
+
+model RolePermission {
+  // Field definitions
+  id         String @id @default(uuid())
+
+  // Foreign Keys
+  roleId       String
+  permissionId String
+
+  // Audit Fields
+  isActive   Boolean  @default(true)
+  assignedAt DateTime @default(now())
+  assignedBy String?
+
+  // Relationships
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
 }
