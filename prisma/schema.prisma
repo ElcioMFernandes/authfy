@@ -8,10 +8,75 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
+  // Field definitions
+  id       String  @id @default(uuid())
   name     String
-  email    String?  @unique
-  phone    String?  @unique
+  email    String? @unique
+  phone    String? @unique
   username String  @unique
   password String
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+
+  // Relationships
+}
+
+model Role {
+  // Field definitions
+  id          String @id @default(uuid())
+  name        String
+  description String?
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+}
+
+model Module {
+  // Field definitions
+  id          String @id @default(uuid())
+  name        String
+  description String?
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+}
+
+model Permission {
+  // Field definitions
+  id          String @id @default(uuid())
+  name        String
+  description String?
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+}
+
+model Application {
+  // Field definitions
+  id          String @id @default(uuid())
+  name        String
+  description String?
+
+  // Audit Fields
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
 }
