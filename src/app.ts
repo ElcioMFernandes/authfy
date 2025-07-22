@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "./config";
 import prisma from "./config/database";
+import { specs, swaggerUi } from "@/config/swagger";
 
 import { router as userRoutes } from "./routes/user.routes";
 import { router as roleRoutes } from "./routes/role.routes";
@@ -11,6 +12,16 @@ import { router as applicationRoutes } from "./routes/application.routes";
 const app = express();
 
 app.use(express.json());
+
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+    customCss: ".swagger-ui .topbar { display: none }",
+    customSiteTitle: "AuthFy API Documentation",
+  })
+);
 
 app.get("/", (_req, res) => {
   res.status(200).json({
